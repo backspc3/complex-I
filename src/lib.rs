@@ -19,11 +19,17 @@ mod tests {
         let sqr = testa.sqrt();
         let mag = testa.magnitude();
 
+        let pow = testa.pow(2.0);
+
+        let pol = testa.to_polar();
+
         println!("mul {:?}", mul);
         println!("div {:?}", div);
         println!("add {:?}", add);
         println!("res {:?}", res);
         println!("sqr {:?}", sqr);
         println!("mag {:?}", mag);
+        println!("pow {:?}", pow);
+        println!("pol {:?}", pol);
     }
 }
