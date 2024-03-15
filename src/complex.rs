@@ -189,7 +189,7 @@ impl<T> Div for Complex<T> where T : Float {
     /// 
     /// z = (x + yi) / (u + vi)
     /// 
-    /// to simplify divide both numerator and denominator
+    /// to simplify multiply both numerator and denominator
     /// by the conjugate of the denominator
     /// 
     /// z = (x + yi) * (u - vi) / (u + vi) * (u - vi)
