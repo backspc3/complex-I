@@ -198,7 +198,6 @@ impl<T> Div for Complex<T> where T : Float {
     /// 
     /// which means
     /// 
-    ///             REAL PART                       IMAGINARY PART
     /// z = ( ( xu + yv ) / (u^2 + v^2) )  + ( ( yu - xv ) / (u^2 + v^2) ) i; 
     /// 
     fn div(self, rhs: Self) -> Self::Output {
