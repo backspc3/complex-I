@@ -12,20 +12,18 @@ mod tests {
         let testb : Complexf = Complex::new( 4.0, 5.0 );
         
         let mul = testa * testb;
-
         let div = testa / testb;
-
         let add = testa + testb;
-
         let res = testa - testb;
         
-        //let sqr = Complex::<f32>::sqrd(&testa);
         let sqr = testa.sqrt();
+        let mag = testa.magnitude();
 
-        println!("{:?}", mul);
-        println!("{:?}", div);
-        println!("{:?}", add);
-        println!("{:?}", res);
-        println!("{:?}", sqr);
+        println!("mul {:?}", mul);
+        println!("div {:?}", div);
+        println!("add {:?}", add);
+        println!("res {:?}", res);
+        println!("sqr {:?}", sqr);
+        println!("mag {:?}", mag);
     }
 }
