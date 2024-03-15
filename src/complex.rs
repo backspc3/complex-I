@@ -130,15 +130,3 @@ impl<T> Complex<T> where T : Float {
         }
     }
 }
-
-impl Complexf  {
-    pub fn sqrd(&self) -> f32 {
-        (self.a * self.a) - (self.b * self.b) + 2.0 * (self.a * self.b)
-    }
-}
-
-impl Complexd {
-    pub fn sqrd(&self) -> f64 {
-        (self.a * self.a) - (self.b * self.b) + 2.0 * (self.a * self.b)
-    }
-}
