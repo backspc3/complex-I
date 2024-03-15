@@ -5,15 +5,15 @@
 // for floating point numbers.
 
 // Inspired by Daniel Shiffmans's Pi Day video:
-// - https://www.youtube.com/watch?v=6UlGLB_jiCs
+// - <https://www.youtube.com/watch?v=6UlGLB_jiCs>
 
 // An exercise in both complex numbers and rust.
 
 // -+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
 // Doc:
-// - https://en.wikipedia.org/wiki/Complex_number
-// - https://en.wikipedia.org/wiki/De_Moivre%27s_formula
+// - <https://en.wikipedia.org/wiki/Complex_number>
+// - <https://en.wikipedia.org/wiki/De_Moivre%27s_formula>
 
 #![allow(dead_code)]
 
@@ -74,6 +74,7 @@ impl<T> Add for Complex<T> where T : Float {
     /// given by:
     /// 
     /// a = x + yi
+    /// 
     /// b = u + vi
     /// 
     /// z = a + b
@@ -115,6 +116,7 @@ impl<T> Sub for Complex<T> where T : Float {
     /// given by:
     /// 
     /// a = x + yi
+    /// 
     /// b = u + vi
     /// 
     /// z = a - b
@@ -139,6 +141,7 @@ impl<T> Mul for Complex<T> where T : Float {
     /// given by:
     /// 
     /// a = x + yi
+    /// 
     /// b = u + vi
     /// 
     /// z = a * b
@@ -178,9 +181,12 @@ impl<T> Div for Complex<T> where T : Float {
     /// given by:
     /// 
     /// a = x + yi
+    /// 
     /// b = u + vi
     /// 
+    /// 
     /// z = a / b
+    /// 
     /// z = (x + yi) / (u + vi)
     /// 
     /// to simplify divide both numerator and denominator
@@ -246,8 +252,10 @@ impl<T> Complex<T> where T : Float {
     #[inline]
     /// Returns a complex number by inputting a phase value 
     /// using Cis notation:
+    /// 
     /// cis(phase) = cos(phase) + i * sin(phase)
-    /// https://en.wikipedia.org/wiki/Cis_(mathematics)
+    /// 
+    /// - <https://en.wikipedia.org/wiki/Cis_(mathematics)>
     pub fn cis( phase : T ) -> Self {
         Self::new( phase.cos() , phase.sin() )
     }
@@ -255,6 +263,7 @@ impl<T> Complex<T> where T : Float {
     #[inline]
     /// Returns a tuple consisting of the 
     /// complex numbers polar form:
+    /// 
     /// - mag.
     /// - angle.
     /// 
@@ -272,6 +281,7 @@ impl<T> Complex<T> where T : Float {
     #[inline]
     /// Scales the complex number by a given scalar.
     /// meaning:
+    /// 
     /// scale * re + i * scale * im
     pub fn scale(&self, scale : T) -> Self {
         Self::new(self.a * scale, self.b * scale)
@@ -280,6 +290,7 @@ impl<T> Complex<T> where T : Float {
     #[inline]
     /// Unscaled the complex number by a given scalar.
     /// meaning:
+    /// 
     /// re / scale + (i * im) / scale
     pub fn unscale(&self, scale : T) -> Self {
         Self::new(self.a / scale, self.b / scale)
