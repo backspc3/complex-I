@@ -1,7 +1,6 @@
 # complex-I
 A complex number library in pure rust.
 
----
 ## Overview:
 This library provides an implementation of complex numbers in Rust, utilizing the type Complex<T>,
 where T represents a floating-point number that implements the Float trait. The library offers various
@@ -13,7 +12,6 @@ The implementation is inspired by Daniel Shiffman's Pi Day video.
 This library serves as both an exercise in understanding complex
 numbers and as a practical tool for performing complex arithmetic operations in Rust.
 - [video](https://www.youtube.com/watch?v=6UlGLB_jiCs)
----
 
 ## Resources:
 - Wikipedia:
