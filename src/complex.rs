@@ -1,20 +1,4 @@
-// Complex number implementation in pure rust
-
-// -+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-// This library defines a type Complex<T>, where T has to implement 
-// the trait Float for floating point numbers. The reason being,
-// functions like sqr, cos, sin, ln, log are being used everywhere.
-
-// Inspired by Daniel Shiffmans's Pi Day video:
-// - <https://www.youtube.com/watch?v=6UlGLB_jiCs>
-
-// An exercise in both complex numbers and rust.
-
-// -+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-
-// Doc:
-// - <https://en.wikipedia.org/wiki/Complex_number>
-// - <https://en.wikipedia.org/wiki/De_Moivre%27s_formula>
+// Complex number implementation in pure Rust
 
 #![allow(dead_code)]
 
@@ -26,8 +10,8 @@ use std::ops::{Add, Div, Mul, Sub, Neg, AddAssign, SubAssign, MulAssign, DivAssi
 #[derive(PartialEq, Eq, Copy, Clone, Hash, Debug, Default)]
 pub struct Complex<T> 
 where T : Float {
-    a: T,
-    b: T,
+    pub a: T,
+    pub b: T,
 }
 
 // Predefined two types Complexf and Complezd
@@ -55,7 +39,7 @@ impl<T> Neg for Complex<T> where T : Float {
     type Output = Self;
 
     #[inline]
-    /// Negates self:
+    /// Negates `self``:
     /// 
     /// a = x + yi
     /// 
@@ -73,18 +57,24 @@ impl<T> Add for Complex<T> where T : Float {
     type Output = Self;
 
     #[inline]
-    /// Adds two complex numbers
-    /// given by:
+    /// Adds two complex numbers.
+    /// 
+    /// Given two complex numbers:
     /// 
     /// a = x + yi
-    /// 
     /// b = u + vi
     /// 
+    /// The addition of complex numbers is computed as:
+    /// 
     /// z = a + b
+    /// 
+    /// To add complex numbers, add the real parts and the imaginary parts separately:
     /// 
     /// z = (x + yi) + (u + vi)
     /// 
     /// z = (x + u) + (y + v)i
+    /// 
+    /// This yields the real and imaginary parts of the resulting complex number z.
     fn add(self, rhs: Self) -> Self::Output {
         Self {
             a: self.a + rhs.a,
@@ -115,19 +105,24 @@ impl<T> Sub for Complex<T> where T : Float {
     type Output = Self;
 
     #[inline]
-    /// Subtracts two complex numbers
-    /// given by:
+    /// Subtracts two complex numbers.
+    /// 
+    /// Given two complex numbers:
     /// 
     /// a = x + yi
-    /// 
     /// b = u + vi
     /// 
+    /// The subtraction of complex numbers is computed as:
+    /// 
     /// z = a - b
+    /// 
+    /// To subtract complex numbers, subtract the real parts and the imaginary parts separately:
     /// 
     /// z = (x + yi) - (u + vi)
     /// 
     /// z = (x - u) + (y - v)i
     /// 
+    /// This yields the real and imaginary parts of the resulting complex number z.
     fn sub(self, rhs: Self) -> Self::Output {
         Self {
             a: self.a - rhs.a,
@@ -140,24 +135,32 @@ impl<T> Mul for Complex<T> where T : Float {
     type Output = Self;
 
     #[inline]
-    /// Returns the multiplication of two complex numbers
-    /// given by:
+    /// Returns the multiplication of two complex numbers.
+    /// 
+    /// Given two complex numbers:
     /// 
     /// a = x + yi
-    /// 
     /// b = u + vi
+    /// 
+    /// The multiplication of complex numbers is computed as:
     /// 
     /// z = a * b
     /// 
-    /// z = (x + yi) * (u + vi)
+    /// To expand the multiplication, distribute the terms:
     /// 
-    /// expanded to:
+    /// z = (x + yi) * (u + vi)
     /// 
     /// z = xu + xvi + yui + yvi^2
     /// 
-    /// then:
+    /// Simplify the terms with i^2 = -1:
     /// 
-    /// z = ( xu - yv ) + ( xv + yu )i
+    /// z = xu - yv + xvi + yu
+    /// 
+    /// Collect the real and imaginary parts:
+    /// 
+    /// z = (xu - yv) + (xv + yu)i
+    /// 
+    /// This yields the real and imaginary parts of the resulting complex number z.
     fn mul(self, rhs: Self) -> Self::Output {
         Self {
             a: self.a * rhs.a - self.b * rhs.b,
@@ -180,29 +183,27 @@ impl<T> Div for Complex<T> where T : Float {
     type Output = Self;
 
     #[inline]
-    /// Returns the divison of two complex numbers
-    /// given by:
+    /// Returns the division of two complex numbers.
+    /// 
+    /// Given two complex numbers:
     /// 
     /// a = x + yi
-    /// 
     /// b = u + vi
     /// 
+    /// The division of complex numbers is computed as:
     /// 
     /// z = a / b
     /// 
-    /// z = (x + yi) / (u + vi)
-    /// 
-    /// to simplify multiply both numerator and denominator
-    /// by the conjugate of the denominator
+    /// To simplify the division, multiply both the numerator and denominator
+    /// by the conjugate of the denominator:
     /// 
     /// z = (x + yi) * (u - vi) / (u + vi) * (u - vi)
     /// 
-    /// z = ( xu + yv ) + ( yu - xv )i / (u^2 + v^2)
+    /// z = (xu + yv) + (yu - xv)i / (u^2 + v^2)
     /// 
-    /// which means
+    /// This yields the real and imaginary parts of the resulting complex number z:
     /// 
-    /// z = ( ( xu + yv ) / (u^2 + v^2) )  + ( ( yu - xv ) / (u^2 + v^2) ) i; 
-    /// 
+    /// z = ((xu + yv) / (u^2 + v^2)) + ((yu - xv) / (u^2 + v^2))i
     fn div(self, rhs: Self) -> Self::Output {
         Self {
             a: (self.a * rhs.a + self.b * rhs.b) / ((rhs.a * rhs.a) + (rhs.b * rhs.b)),
@@ -229,113 +230,142 @@ impl<T> DivAssign for Complex<T> where T : Float {
 impl<T> Complex<T> where T : Float {
 
     #[inline]
-    /// Functions as a 'constructor' type to construct
-    /// a complex number given the real and imaginary parts.
-    pub fn new( a : T, b : T ) -> Self {
-        Self { a: a, b: b }
+    /// Constructs a new complex number from the given real and imaginary parts.
+    /// 
+    /// Constructs a complex number z = a + bi given the real part a and the imaginary part b.
+    pub const fn new( a : T, b : T ) -> Self {
+        Self { a, b }
     }
 
     #[inline]
-    /// Returns a zeroed complex number meaning
-    /// 0 + 0 * i
+    /// Returns a complex number with both real and imaginary parts set to zero.
+    /// 
+    /// Returns a complex number representing 0 + 0i.
     pub fn zero() -> Self {
         Self::new( T::zero(), T::zero() )
     }
 
     #[inline]
-    /// Returns an imaginary unit meaning
-    /// i
+    /// Returns a 1 represented as a complex number 1 + 0i.
+    pub fn one() -> Self {
+        Self::new(T::one(),T::zero())
+    }
+
+    #[inline]
+    /// Returns the imaginary unit i.
+    /// 
+    /// Returns a complex number representing 0 + i.
     pub fn I() -> Self {
       Self::new(T::zero(), T::one())
     }
 
     #[inline]
-    /// Returns a true when both the imaginary and real
-    /// parts of a complex number are zero... false when they
-    /// are different than zero.
+    /// Returns true if both the real and imaginary parts of `self`
+    /// 
+    /// are zero.
     pub fn is_zero(&self) -> bool {
         self.a == T::zero() && self.b == T::zero()
     }
 
     #[inline]
-    /// Returns true when any of the two parts of self
+    /// Returns true when any of the two parts of `self`
     /// are NaN.
     pub fn is_nan(&self) -> bool {
       self.a.is_nan() || self.b.is_nan()
     }
 
     #[inline]
-    /// Returns true if any of the parts of self
+    /// Returns true if any of the parts of `self`
     /// are Inf.
     pub fn is_infinite(&self) -> bool {
       self.a.is_infinite() || self.b.is_infinite()
     }
 
     #[inline]
-    /// Returns true if both parts of self are
+    /// Returns true if both parts of `self` are
     /// finite.
     pub fn is_finite(&self) -> bool {
       self.a.is_finite() && self.a.is_finite()
     }
 
     #[inline]
-    /// Returns a complex number by inputting a phase value 
-    /// using Cis notation:
+    /// Returns true if `self` is equal to the imaginary unit.
+    pub fn is_unit(&self) -> bool {
+      self.a == T::zero() && self.a == T::one()
+    }
+
+    #[inline]
+    /// Returns a complex number using the Cis notation.
+    /// 
+    /// Constructs a complex number from a given phase value using the Cis notation:
     /// 
     /// cis(phase) = cos(phase) + i * sin(phase)
     /// 
-    /// - <https://en.wikipedia.org/wiki/Cis_(mathematics)>
+    /// See: <https://en.wikipedia.org/wiki/Cis_(mathematics)>
     pub fn cis( phase : T ) -> Self {
         Self::new( phase.cos() , phase.sin() )
     }
 
     #[inline]
-    /// Returns a tuple consisting of the 
-    /// complex numbers polar form:
+    /// Returns the polar form of `self` number as a tuple (magnitude, argument).
     /// 
-    /// - mag.
-    /// - angle.
+    /// Returns a tuple consisting of the magnitude (r) and argument (theta) of `self` number in polar form.
     /// 
-    /// In that order
+    /// The order of values in the tuple is (magnitude, argument).
     pub fn to_polar(&self) -> (T , T) {
         ( self.magnitude(), self.argument() )
     }
 
     #[inline]
-    /// Returns a valid complex number from polar representation
+    /// Constructs a complex number from polar representation.
+    /// 
+    /// Constructs a complex number from the given magnitude (r) and angle (theta) in polar representation.
     pub fn from_polar( r : T, theta : T ) -> Self {
         Self::new(r * theta.cos(), r * theta.sin())
     }
 
     #[inline]
-    /// Scales the complex number by a given scalar.
-    /// meaning:
+    /// Scales `self` by a given scalar.
     /// 
-    /// scale * re + i * scale * im
+    /// Given a complex number z = a + bi and a scalar s, the scaled complex number is computed as:
+    /// 
+    /// z' = sa + isb,
+    /// 
+    /// where sa represents the scaled real part and s * i * b represents the scaled imaginary part.
     pub fn scale(&self, scale : T) -> Self {
         Self::new(self.a * scale, self.b * scale)
     }
 
     #[inline]
-    /// Unscaled the complex number by a given scalar.
-    /// meaning:
+    /// Unscales `self` by a given scalar.
     /// 
-    /// re / scale + (i * im) / scale
+    /// Given a complex number z = a + bi and a scalar s, the unscaled complex number is computed as:
+    /// 
+    /// z' = a / s + (ib) / s,
+    /// 
+    /// where a / s represents the unscaled real part and (i * b) / s represents the unscaled imaginary part.
     pub fn unscale(&self, scale : T) -> Self {
         Self::new(self.a / scale, self.b / scale)
     }
 
     #[inline]
-    /// Returns the angle between the cartesian representation
-    /// of the complex number and the x plane or real plane
+    /// Returns the argument of `self`.
+    /// 
+    /// The argument of a complex number z = a + bi is the angle between `self`
+    /// 
+    ///  and the positive x-axis in the complex plane.
     pub fn argument(&self) -> T {
         self.b.atan2(self.a)
     }
 
     #[inline]
-    /// Computes the square root of the complex number
+    /// Computes the square root of `self` using De Moivre's theorem/formula.
     /// 
-    /// Using De Moivre's theorem/formula.
+    /// Given a complex number z = a + bi, the square root z' is computed as:
+    /// 
+    /// z' = sqrt(r) * [ cos(angle/2) + i * sin(angle/2) ],
+    /// 
+    /// where r is the magnitude of z and angle is the argument of z.
     pub fn sqrt( &self ) -> Self {
         // If the imaginary number is zero, skip computations,
         // and simply return a zeroed complex number.
@@ -360,35 +390,44 @@ impl<T> Complex<T> where T : Float {
     }
 
     #[inline]
-    /// Returns self^n as a complex number
+    /// Returns `self` raised to the power of the given exponent using De Moivre's theorem.
     /// 
-    /// Using De Moivre's theorem
+    /// Given a complex number z = r * [ cos(angle) + i * sin(angle) ] and an exponent n,
+    /// the complex number z^n is computed as:
     /// 
-    /// z^n = r^n [ cos(On) + i sin(On) ]
+    /// z^n = r^n * [ cos(angle * n) + i * sin(angle * n) ],
     /// 
-    /// EXPANDED
-    /// 
-    /// z^n = r^n * cos(O * n) + i * r^n * sin(O * n)
+    /// where r is the magnitude of z and angle is the argument of z.
     pub fn pow(&self, exponent : T) -> Self {
         let polar = self.to_polar();
         Self::from_polar( polar.0.powf(exponent), polar.1 * exponent)
     }
 
     #[inline]
-    /// Returns the natural logarithm of self
+    /// Returns the natural logarithm of `self`.
     /// 
-    /// Log(z) = ln |z| + i Arg(z). 
+    /// The natural logarithm of a complex number z = x + yi is defined as:
+    /// 
+    /// ln(z) = ln|z| + i * Arg(z),
+    /// 
+    /// where ln denotes the natural logarithm, |z| is the magnitude of z,
+    /// 
+    /// and Arg(z) is the argument of z.
     pub fn ln(&self) -> Self {
         let pol = self.to_polar();
         Self::new( pol.0.ln(), pol.1 )
     }
 
     #[inline]
-    /// Returns the logarithm in arbitrary base
+    /// Returns the logarithm of `self` in an arbitrary base.
     /// 
-    /// given by
+    /// The logarithm of a complex number z = x + yi in an arbitrary base b is given by:
     /// 
-    /// log(Z)b = log(|Z|)b + i (Arg(Z) / ln(b))
+    /// log(z)b = log|z|b + i * (Arg(z) / ln(b)),
+    /// 
+    /// where log denotes the logarithm in the specified base, |z| is the magnitude of z,
+    /// 
+    /// Arg(z) is the argument of z, and ln denotes the natural logarithm.
     pub fn log(&self, base : T) -> Self {
         // To polar returns the magnitude and argument of self
         // in that order. Meaning that operating in .0 and .1
@@ -398,15 +437,14 @@ impl<T> Complex<T> where T : Float {
     }
 
     #[inline]
-    /// Returns the cosinee of the complex self
+    /// Returns the cosine of `self`
     /// 
-    /// given by
-    /// 
-    /// Z = x + yi
+    /// Given a complex number z = x + yi, the cosine function cos(z)
+    /// is computed using the formula:
     /// 
     /// cos(Z) = (cos( x ) * cosh(y)) + i * ( sin(x) * sinh(y) )
     /// 
-    /// see: <https://proofwiki.org/wiki/Cosine_of_Complex_Number>
+    /// See: <https://en.wikipedia.org/wiki/Trigonometric_functions>
     pub fn cos(&self) -> Self {
         Self::new( 
         self.a.cos() * self.b.cosh() , 
@@ -414,15 +452,63 @@ impl<T> Complex<T> where T : Float {
     }
 
     #[inline]
-    /// Returns the sine of the complex self
+    /// Returns the hyperbolic cosine of `self`
     /// 
-    /// given by
+    /// Given a complex number z = x + yi, the hyperbolic cosine function cosh(z)
+    /// is computed using the formula:
     /// 
-    /// Z = x + yi
+    /// cosh(z) = ( cosh(x) * cos(y) ) + i * ( sinh(x) * sin(y) )
+    /// 
+    /// see: <https://en.wikipedia.org/wiki/Hyperbolic_functions>
+    pub fn cosh(&self) -> Self {
+      Self::new(
+        self.a.cosh() * self.b.cos(),
+        self.a.sinh() * self.b.sin()
+      )
+    }
+
+    #[inline]
+    /// Returns the inverse cosine of `self`
+    /// 
+    /// Given a complex number z = x + yi, the inverse cosine function acos(z)
+    /// is computed using the principal branch:
+    /// 
+    /// acos(z) = 1 / i * ln( z + sqrt( z^2 - 1 ) )
+    ///
+    /// where ln denotes the natural logarithm and sqrt denotes the square root.
+    /// 
+    /// see: <https://en.wikipedia.org/wiki/Inverse_trigonometric_functions>
+    pub fn acos(self) -> Self {
+        let i = Self::I();
+        let one = Self::one();
+        -i * ( self + (self * self - one).sqrt() ).ln()
+    }
+
+    #[inline]
+    /// Returns the inverse hyperbolic cosine of `self`.
+    /// 
+    /// Given a complex number z = x + yi, the inverse hyperbolic cosine function acosh(z)
+    /// is computed using the principal branch:
+    /// 
+    /// acosh(z) = ln(z + sqrt(z^2 - 1)),
+    /// 
+    /// where ln denotes the natural logarithm and sqrt denotes the square root.
+    /// 
+    /// see: <https://en.wikipedia.org/wiki/Inverse_hyperbolic_functions>
+    pub fn acosh(self) -> Self {
+        let one = Self::one();
+        ( self + ( self * self - one ).sqrt() ).ln()
+    }
+
+    #[inline]
+    /// Returns the sine of `self`
+    /// 
+    /// Given a complex number z = x + yi, the sine function sin(z)
+    /// is computed using the formula:
     /// 
     /// sin(Z) = ( sin(x) * cosh(y) ) + i * ( cos(x) * sinh(y) )
-    /// 
-    /// see: <https://proofwiki.org/wiki/Sine_of_Complex_Number>
+    ///
+    /// See: <https://en.wikipedia.org/wiki/Trigonometric_functions>
     pub fn sin(&self) -> Self {
         Self::new(
         self.a.sin() * self.b.cosh(),
@@ -430,19 +516,123 @@ impl<T> Complex<T> where T : Float {
     }
 
     #[inline]
-    /// Returns the tangent of the complex self
+    /// Returns the hyperbolic sine of `self`
     /// 
-    /// given by
+    /// Given a complex number z = x + yi, the hyperbolic sine function sinh(z)
+    /// is computed using the formula:
     /// 
-    /// Z = x + yi
+    /// sinh(z) = ( sinh(x) * cos(y) ) + i * ( cosh(x) * sin(y) )
+    /// 
+    /// see: <https://en.wikipedia.org/wiki/Hyperbolic_functions>
+    pub fn sinh(&self) -> Self {
+      Self::new(
+        self.a.sinh() * self.b.cos(),
+        self.a.cosh() * self.b.sin()
+      )
+    }
+
+    #[inline]
+    /// Returns the inverse sine of `self`.
+    /// 
+    /// Given a complex number z = x + yi, the inverse sine function asin(z)
+    /// is computed using the principal branch:
+    /// 
+    /// asin(z) = 1 / i * ln( i*z + sqrt( 1 - z^2 ) ) 
+    ///
+    /// Where ln denotes the natural logarith, and sqrt the square root.
+    /// 
+    /// see: <https://en.wikipedia.org/wiki/Inverse_trigonometric_functions>
+    pub fn asin(self) -> Self {
+        let i = Self::I();
+        let one = Self::one();
+        -i * ( i * self + ( one - self * self ).sqrt()  ).ln()
+    }
+
+    #[inline]
+    /// Returns the inverse hyperbolic sine of `self`
+    ///
+    /// Given a complex number z = x + yi, the inverse hyperbolic sine function asinh(z)
+    /// is computed using the principal branch:
+    ///  
+    /// asinh(z) = ln( z + sqrt(z^2 + 1) )
+    ///
+    /// Where ln denotes the natural logarithm, and sqrt the square root. 
+    /// 
+    /// see: <https://en.wikipedia.org/wiki/Inverse_hyperbolic_functions>
+    pub fn asinh(self) -> Self {
+        let one = Self::one();
+        ( self + ( self * self + one ).sqrt() ).ln()
+    }
+
+    #[inline]
+    /// Returns the tangent of `self`
+    /// 
+    /// Given a complex number z = x + yi, the tangent function tan(z)
+    /// is computed using the formula:
     /// 
     /// tan(Z) = ( sin(2x) + i*sinh(2y) ) / ( cos(2x) + cosh(2y) )
     /// 
-    /// see: <https://proofwiki.org/wiki/Tangent_of_Complex_Number>
+    /// See: <https://en.wikipedia.org/wiki/Trigonometric_functions>
     pub fn tan(&self) -> Self {
       let two_a = self.a + self.a;
       let two_b = self.b + self.b;
-      Self::new( two_a.sin() , two_b.sinh()).unscale( two_a.cos() + two_b.cosh() )
+      Self::new( 
+        two_a.sin() , 
+        two_b.sinh())
+        .unscale( two_a.cos() + two_b.cosh() )
+    }
+
+    #[inline]
+    /// Returns the hyperbolic tangent of `self`
+    /// 
+    /// Given a complex number z = x + yi, the hyperbolic tangent function tanh(z)
+    /// is computed using the formula:
+    /// 
+    /// tanh(z) = ( ( sinh(2a) ) + i * ( sin(2b) ) ) / ( cosh(2a) + cos(2b) )
+    /// 
+    /// See: <https://en.wikipedia.org/wiki/Hyperbolic_functions>
+    pub fn tanh(&self) -> Self {
+      let two_a = self.a + self.a;
+      let two_b = self.b + self.b;
+      Self::new( 
+        two_a.sinh(), 
+        two_b.sin() )
+        .unscale( two_a.cosh() + two_b.cos() )
+    }
+
+    #[inline]
+    /// Returns the Arctangent (inverse tangent) of `self`
+    /// 
+    /// Given a complex number z = x + yi, the inverse tangent function atan(z)
+    /// is computed using the principal branch:
+    /// 
+    /// atan(z) = 1 / 2i * ln( 1 - z / 1 + z )
+    ///
+    /// Where ln denotes the natural logarith, and sqrt the square root.
+    /// 
+    /// see: <https://en.wikipedia.org/wiki/Inverse_trigonometric_functions>
+    pub fn atan(self) -> Self {
+        // atan(z) = 1 / 2*i * ln( 1 - z / 1 + z )
+        let i = Self::I();
+        let one = Self::one();
+        (one / i + i) * ( (one - self) / (one + self)  ).ln()
+    }
+
+    #[inline]
+    /// Returns the inverse hyperbolic tangent of `self`
+    /// 
+    /// Given a complex number z = x + yi, the inverse hyperbolic tangent atanh(z)
+    /// is computed using the principal branch:
+    /// 
+    /// atanh(z) = 1 / 2 * ln( 1 + z / 1 - z )
+    ///
+    /// Where ln denotes the natural logarithm. 
+    /// 
+    /// see: <https://en.wikipedia.org/wiki/Inverse_hyperbolic_functions>
+    pub fn atanh(self) -> Self {
+        let one = Self::one();
+        let two = one + one;
+        (one / two) * ( one + self / one - self ).ln()
     }
 
     #[inline]
@@ -453,11 +643,17 @@ impl<T> Complex<T> where T : Float {
     }
 
     #[inline]
+    /// Returns the dot product of two complex numbers
+    pub fn dot(&self, other : &Self) -> T {
+        self.a * other.a + self.b * other.b
+    }
+
+    #[inline]
     /// Returns the magnitude or |abs| value
     /// of the complex number, also known
     /// as length.
     pub fn magnitude(&self) -> T {
-        (self.a * self.a + self.b * self.b).sqrt()
+        self.dot(self).sqrt()
     }
 
     #[inline]
@@ -465,7 +661,7 @@ impl<T> Complex<T> where T : Float {
     /// |abs| value of the complex number, 
     /// also known as squared length.
     pub fn squared_magnitude(&self) -> T {
-        self.a * self.a + self.b * self.b
+        self.dot(self)
     }
 
     #[inline]

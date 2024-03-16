@@ -27,6 +27,10 @@ mod tests {
         let log = testa.log(2.0);
         let cos = testa.cos();
         let sin = testa.sin();
+        let tan = testa.tan();
+        let cosh = testa.cosh();
+        let sinh = testa.sinh();
+        let tanh = testa.tanh();
 
         // Right now I have to figure out how to do a test
         // correctly in rust, so I am basically just hand checing
@@ -44,5 +48,10 @@ mod tests {
         println!("pol {:?}", log);
         println!("pol {:?}", cos);
         println!("pol {:?}", sin);
+        println!("tan {:?}", tan);
+        println!("sinh {:?}", sinh);
+        println!("cosh {:?}", cosh);
+        println!("tanh {:?}", tanh);
+        
     }
 }
