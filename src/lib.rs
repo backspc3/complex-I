@@ -23,6 +23,15 @@ mod tests {
 
         let pol = testa.to_polar();
 
+        let lnc = testa.ln();
+        let log = testa.log(2.0);
+        let cos = testa.cos();
+        let sin = testa.sin();
+
+        // Right now I have to figure out how to do a test
+        // correctly in rust, so I am basically just hand checing
+        // the answers with this calculator:
+        // <https://www.calculators-math.com/complex-number-calculator/>
         println!("mul {:?}", mul);
         println!("div {:?}", div);
         println!("add {:?}", add);
@@ -31,5 +40,9 @@ mod tests {
         println!("mag {:?}", mag);
         println!("pow {:?}", pow);
         println!("pol {:?}", pol);
+        println!("pol {:?}", lnc);
+        println!("pol {:?}", log);
+        println!("pol {:?}", cos);
+        println!("pol {:?}", sin);
     }
 }

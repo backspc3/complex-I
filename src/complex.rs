@@ -1,8 +1,9 @@
 // Complex number implementation in pure rust
 
 // -+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-// This library defines a type Complex<T>, where T has to be have the trait Float
-// for floating point numbers.
+// This library defines a type Complex<T>, where T has to implement 
+// the trait Float for floating point numbers. The reason being,
+// functions like sqr, cos, sin, ln, log are being used everywhere.
 
 // Inspired by Daniel Shiffmans's Pi Day video:
 // - <https://www.youtube.com/watch?v=6UlGLB_jiCs>
@@ -29,11 +30,13 @@ where T : Float {
     b: T,
 }
 
+// Predefined two types Complexf and Complezd
+// for f32 and f64 respectively, for ease of use.
 pub type Complexf = Complex<f32>;
 pub type Complexd = Complex<f64>;
 
 // -+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-// - List of traits to allow for arithmetic using operators:
+// - List of traits to allow for arithmetic operators:
 
 // complexa + complexb
 // complexa += complexb
@@ -240,6 +243,13 @@ impl<T> Complex<T> where T : Float {
     }
 
     #[inline]
+    /// Returns an imaginary unit meaning
+    /// i
+    pub fn I() -> Self {
+      Self::new(T::zero(), T::one())
+    }
+
+    #[inline]
     /// Returns a true when both the imaginary and real
     /// parts of a complex number are zero... false when they
     /// are different than zero.
@@ -247,6 +257,26 @@ impl<T> Complex<T> where T : Float {
         self.a == T::zero() && self.b == T::zero()
     }
 
+    #[inline]
+    /// Returns true when any of the two parts of self
+    /// are NaN.
+    pub fn is_nan(&self) -> bool {
+      self.a.is_nan() || self.b.is_nan()
+    }
+
+    #[inline]
+    /// Returns true if any of the parts of self
+    /// are Inf.
+    pub fn is_infinite(&self) -> bool {
+      self.a.is_infinite() || self.b.is_infinite()
+    }
+
+    #[inline]
+    /// Returns true if both parts of self are
+    /// finite.
+    pub fn is_finite(&self) -> bool {
+      self.a.is_finite() && self.a.is_finite()
+    }
 
     #[inline]
     /// Returns a complex number by inputting a phase value 
@@ -268,7 +298,7 @@ impl<T> Complex<T> where T : Float {
     /// 
     /// In that order
     pub fn to_polar(&self) -> (T , T) {
-        ( self.magnitude(), self.angle() )
+        ( self.magnitude(), self.argument() )
     }
 
     #[inline]
@@ -298,7 +328,7 @@ impl<T> Complex<T> where T : Float {
     #[inline]
     /// Returns the angle between the cartesian representation
     /// of the complex number and the x plane or real plane
-    pub fn angle(&self) -> T {
+    pub fn argument(&self) -> T {
         self.b.atan2(self.a)
     }
 
@@ -342,6 +372,77 @@ impl<T> Complex<T> where T : Float {
     pub fn pow(&self, exponent : T) -> Self {
         let polar = self.to_polar();
         Self::from_polar( polar.0.powf(exponent), polar.1 * exponent)
+    }
+
+    #[inline]
+    /// Returns the natural logarithm of self
+    /// 
+    /// Log(z) = ln |z| + i Arg(z). 
+    pub fn ln(&self) -> Self {
+        let pol = self.to_polar();
+        Self::new( pol.0.ln(), pol.1 )
+    }
+
+    #[inline]
+    /// Returns the logarithm in arbitrary base
+    /// 
+    /// given by
+    /// 
+    /// log(Z)b = log(|Z|)b + i (Arg(Z) / ln(b))
+    pub fn log(&self, base : T) -> Self {
+        // To polar returns the magnitude and argument of self
+        // in that order. Meaning that operating in .0 and .1
+        // is in terms of those.
+        let pol = self.to_polar();
+        Self::new(pol.0.log(base), pol.1 / base.ln())
+    }
+
+    #[inline]
+    /// Returns the cosinee of the complex self
+    /// 
+    /// given by
+    /// 
+    /// Z = x + yi
+    /// 
+    /// cos(Z) = (cos( x ) * cosh(y)) + i * ( sin(x) * sinh(y) )
+    /// 
+    /// see: <https://proofwiki.org/wiki/Cosine_of_Complex_Number>
+    pub fn cos(&self) -> Self {
+        Self::new( 
+        self.a.cos() * self.b.cosh() , 
+       -self.a.sin() * self.b.sinh() )
+    }
+
+    #[inline]
+    /// Returns the sine of the complex self
+    /// 
+    /// given by
+    /// 
+    /// Z = x + yi
+    /// 
+    /// sin(Z) = ( sin(x) * cosh(y) ) + i * ( cos(x) * sinh(y) )
+    /// 
+    /// see: <https://proofwiki.org/wiki/Sine_of_Complex_Number>
+    pub fn sin(&self) -> Self {
+        Self::new(
+        self.a.sin() * self.b.cosh(),
+        self.a.cos() * self.b.sinh() )
+    }
+
+    #[inline]
+    /// Returns the tangent of the complex self
+    /// 
+    /// given by
+    /// 
+    /// Z = x + yi
+    /// 
+    /// tan(Z) = ( sin(2x) + i*sinh(2y) ) / ( cos(2x) + cosh(2y) )
+    /// 
+    /// see: <https://proofwiki.org/wiki/Tangent_of_Complex_Number>
+    pub fn tan(&self) -> Self {
+      let two_a = self.a + self.a;
+      let two_b = self.b + self.b;
+      Self::new( two_a.sin() , two_b.sinh()).unscale( two_a.cos() + two_b.cosh() )
     }
 
     #[inline]
