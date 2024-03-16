@@ -443,8 +443,6 @@ impl<T> Complex<T> where T : Float {
     /// is computed using the formula:
     /// 
     /// cos(Z) = (cos( x ) * cosh(y)) + i * ( sin(x) * sinh(y) )
-    /// 
-    /// See: <https://en.wikipedia.org/wiki/Trigonometric_functions>
     pub fn cos(&self) -> Self {
         Self::new( 
         self.a.cos() * self.b.cosh() , 
@@ -458,8 +456,6 @@ impl<T> Complex<T> where T : Float {
     /// is computed using the formula:
     /// 
     /// cosh(z) = ( cosh(x) * cos(y) ) + i * ( sinh(x) * sin(y) )
-    /// 
-    /// see: <https://en.wikipedia.org/wiki/Hyperbolic_functions>
     pub fn cosh(&self) -> Self {
       Self::new(
         self.a.cosh() * self.b.cos(),
@@ -476,8 +472,6 @@ impl<T> Complex<T> where T : Float {
     /// acos(z) = 1 / i * ln( z + sqrt( z^2 - 1 ) )
     ///
     /// where ln denotes the natural logarithm and sqrt denotes the square root.
-    /// 
-    /// see: <https://en.wikipedia.org/wiki/Inverse_trigonometric_functions>
     pub fn acos(self) -> Self {
         let i = Self::I();
         let one = Self::one();
@@ -493,8 +487,6 @@ impl<T> Complex<T> where T : Float {
     /// acosh(z) = ln(z + sqrt(z^2 - 1)),
     /// 
     /// where ln denotes the natural logarithm and sqrt denotes the square root.
-    /// 
-    /// see: <https://en.wikipedia.org/wiki/Inverse_hyperbolic_functions>
     pub fn acosh(self) -> Self {
         let one = Self::one();
         ( self + ( self * self - one ).sqrt() ).ln()
@@ -507,8 +499,6 @@ impl<T> Complex<T> where T : Float {
     /// is computed using the formula:
     /// 
     /// sin(Z) = ( sin(x) * cosh(y) ) + i * ( cos(x) * sinh(y) )
-    ///
-    /// See: <https://en.wikipedia.org/wiki/Trigonometric_functions>
     pub fn sin(&self) -> Self {
         Self::new(
         self.a.sin() * self.b.cosh(),
@@ -522,8 +512,6 @@ impl<T> Complex<T> where T : Float {
     /// is computed using the formula:
     /// 
     /// sinh(z) = ( sinh(x) * cos(y) ) + i * ( cosh(x) * sin(y) )
-    /// 
-    /// see: <https://en.wikipedia.org/wiki/Hyperbolic_functions>
     pub fn sinh(&self) -> Self {
       Self::new(
         self.a.sinh() * self.b.cos(),
@@ -540,8 +528,6 @@ impl<T> Complex<T> where T : Float {
     /// asin(z) = 1 / i * ln( i*z + sqrt( 1 - z^2 ) ) 
     ///
     /// Where ln denotes the natural logarith, and sqrt the square root.
-    /// 
-    /// see: <https://en.wikipedia.org/wiki/Inverse_trigonometric_functions>
     pub fn asin(self) -> Self {
         let i = Self::I();
         let one = Self::one();
@@ -557,8 +543,6 @@ impl<T> Complex<T> where T : Float {
     /// asinh(z) = ln( z + sqrt(z^2 + 1) )
     ///
     /// Where ln denotes the natural logarithm, and sqrt the square root. 
-    /// 
-    /// see: <https://en.wikipedia.org/wiki/Inverse_hyperbolic_functions>
     pub fn asinh(self) -> Self {
         let one = Self::one();
         ( self + ( self * self + one ).sqrt() ).ln()
@@ -571,8 +555,6 @@ impl<T> Complex<T> where T : Float {
     /// is computed using the formula:
     /// 
     /// tan(Z) = ( sin(2x) + i*sinh(2y) ) / ( cos(2x) + cosh(2y) )
-    /// 
-    /// See: <https://en.wikipedia.org/wiki/Trigonometric_functions>
     pub fn tan(&self) -> Self {
       let two_a = self.a + self.a;
       let two_b = self.b + self.b;
@@ -589,8 +571,6 @@ impl<T> Complex<T> where T : Float {
     /// is computed using the formula:
     /// 
     /// tanh(z) = ( ( sinh(2a) ) + i * ( sin(2b) ) ) / ( cosh(2a) + cos(2b) )
-    /// 
-    /// See: <https://en.wikipedia.org/wiki/Hyperbolic_functions>
     pub fn tanh(&self) -> Self {
       let two_a = self.a + self.a;
       let two_b = self.b + self.b;
@@ -609,8 +589,6 @@ impl<T> Complex<T> where T : Float {
     /// atan(z) = 1 / 2i * ln( 1 - z / 1 + z )
     ///
     /// Where ln denotes the natural logarith, and sqrt the square root.
-    /// 
-    /// see: <https://en.wikipedia.org/wiki/Inverse_trigonometric_functions>
     pub fn atan(self) -> Self {
         // atan(z) = 1 / 2*i * ln( 1 - z / 1 + z )
         let i = Self::I();
@@ -627,8 +605,6 @@ impl<T> Complex<T> where T : Float {
     /// atanh(z) = 1 / 2 * ln( 1 + z / 1 - z )
     ///
     /// Where ln denotes the natural logarithm. 
-    /// 
-    /// see: <https://en.wikipedia.org/wiki/Inverse_hyperbolic_functions>
     pub fn atanh(self) -> Self {
         let one = Self::one();
         let two = one + one;
