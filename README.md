@@ -7,7 +7,7 @@ where T represents a floating-point number that implements the Float trait. The 
 mathematical operations commonly associated with complex numbers, such as squaring, cosine, sine,
 natural logarithm, and logarithm functions.
 
-Motivation:
+## Motivation:
 The implementation is inspired by Daniel Shiffman's Pi Day video. 
 This library serves as both an exercise in understanding complex
 numbers and as a practical tool for performing complex arithmetic operations in Rust.
