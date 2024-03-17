@@ -35,12 +35,12 @@ see docs for all available operations.
 ```
 
 ## Resources:
-- Wikipedia:
+- Wikipedia:\
      [Complex numbers](https://en.wikipedia.org/wiki/Complex_number)\
      [De Moivre's formula](https://en.wikipedia.org/wiki/De_Moivre%27s_formula)\
      [Trigonometric functions](https://en.wikipedia.org/wiki/Trigonometric_functions)\
      [Hyperbolic functions](https://en.wikipedia.org/wiki/Hyperbolic_functions)\
      [Inverse trig functions](https://en.wikipedia.org/wiki/Inverse_trigonometric_functions)\
-     [Inverse hyperbolic functions](https://en.wikipedia.org/wiki/Inverse_hyperbolic_functions)\
-- Proofwiki:
-     [proofs/definitions](https://proofwiki.org/wiki/Main_Page)\
+     [Inverse hyperbolic functions](https://en.wikipedia.org/wiki/Inverse_hyperbolic_functions)
+- Proofwiki:\
+     [proofs/definitions](https://proofwiki.org/wiki/Main_Page)
