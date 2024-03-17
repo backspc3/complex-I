@@ -443,6 +443,9 @@ impl<T> Complex<T> where T : Float {
     /// is computed using the formula:
     /// 
     /// cos(Z) = (cos( x ) * cosh(y)) + i * ( sin(x) * sinh(y) )
+    ///
+    /// Where cos denotes the cosine, cosh the hyperbolic cosine,
+    /// sin the sine and sinh the hyperbolic sine.
     pub fn cos(&self) -> Self {
         Self::new( 
         self.a.cos() * self.b.cosh() , 
@@ -456,6 +459,9 @@ impl<T> Complex<T> where T : Float {
     /// is computed using the formula:
     /// 
     /// cosh(z) = ( cosh(x) * cos(y) ) + i * ( sinh(x) * sin(y) )
+    ///
+    /// Where cosh denotes the hyperbolic cosine, cos the cosine, sinh the 
+    /// hyperbolic sine and sin the sine.
     pub fn cosh(&self) -> Self {
       Self::new(
         self.a.cosh() * self.b.cos(),
@@ -499,6 +505,9 @@ impl<T> Complex<T> where T : Float {
     /// is computed using the formula:
     /// 
     /// sin(Z) = ( sin(x) * cosh(y) ) + i * ( cos(x) * sinh(y) )
+    ///
+    /// Where sinh denotes the hyperbolic sine, cosh the hyperbolic cosine,
+    /// sin the sine and cos the cosine.
     pub fn sin(&self) -> Self {
         Self::new(
         self.a.sin() * self.b.cosh(),
@@ -512,6 +521,9 @@ impl<T> Complex<T> where T : Float {
     /// is computed using the formula:
     /// 
     /// sinh(z) = ( sinh(x) * cos(y) ) + i * ( cosh(x) * sin(y) )
+    ///
+    /// Where sinh denotes the hyperbolic sine, cosh the hyperbolic cosine,
+    /// sin the sine and cos the cosine.
     pub fn sinh(&self) -> Self {
       Self::new(
         self.a.sinh() * self.b.cos(),
@@ -553,8 +565,12 @@ impl<T> Complex<T> where T : Float {
     /// 
     /// Given a complex number z = x + yi, the tangent function tan(z)
     /// is computed using the formula:
-    /// 
+    //// 
     /// tan(Z) = ( sin(2x) + i*sinh(2y) ) / ( cos(2x) + cosh(2y) )
+    ///
+    /// Where sinh denotes the hyperbolic sine, sin the sine, cosh the 
+    ///
+    /// hyperbolic cosine and cos the cosine.
     pub fn tan(&self) -> Self {
       let two_a = self.a + self.a;
       let two_b = self.b + self.b;
@@ -571,6 +587,10 @@ impl<T> Complex<T> where T : Float {
     /// is computed using the formula:
     /// 
     /// tanh(z) = ( ( sinh(2a) ) + i * ( sin(2b) ) ) / ( cosh(2a) + cos(2b) )
+    ///
+    /// Where sinh denotes the hyperbolic sine, sin the sine, cosh the 
+    ///
+    /// hyperbolic cosine and cos the cosine.
     pub fn tanh(&self) -> Self {
       let two_a = self.a + self.a;
       let two_b = self.b + self.b;
@@ -619,7 +639,7 @@ impl<T> Complex<T> where T : Float {
     ///
     /// sec(z) = 1 / cos(z)
     ///
-    /// Where cos is the principal cosine of z.
+    /// Where cos denotes the cosine of z.
     pub fn sec(&self) -> Self {
         Self::one() / self.cos()
     }
@@ -632,7 +652,7 @@ impl<T> Complex<T> where T : Float {
     ///
     /// sech(z) = 1 / cosh(z)
     ///
-    /// Where cosh is the principal hyperbolic cosine.
+    /// Where cosh denotes the hyperbolic cosine.
     pub fn sech(&self) -> Self {
         Self::one() / self.cosh()
     }
@@ -645,7 +665,7 @@ impl<T> Complex<T> where T : Float {
     ///
     /// csc(z) = 1 / sin(z)
     ///
-    /// Where sin is the principal sine of z.
+    /// Where sin denotes the sine.
     pub fn csc(&self) -> Self {
         Self::one() / self.sin()
     }
@@ -658,7 +678,7 @@ impl<T> Complex<T> where T : Float {
     ///
     /// csch(z) = 1 / sinh(z)
     ///
-    /// Where sinh is the principal hyperbolic sine.
+    /// Where sinh denotes the hyperbolic sine.
     pub fn csch(&self) -> Self {
         Self::one() / self.sinh()
     }
@@ -671,7 +691,7 @@ impl<T> Complex<T> where T : Float {
     ///
     /// asec(z) = 1 / i * ln( 1 + sqrt( 1 - z^2 ) / z )
     ///
-    /// Where ln denotes the principal natural logarith and principal square root
+    /// Where ln denotes the natural logarith and square root
     pub fn asec(self) -> Self {
         // For all complex numbers z in C that 
         // satisfies: z != 0
@@ -695,7 +715,7 @@ impl<T> Complex<T> where T : Float {
     ///
     /// acsc(z) = 1 / i * ln( i + sqrt( z^2 - 1 ) / z )
     ///
-    /// Where ln denotes the principal natural logarith and principal square root
+    /// Where ln denotes the natural logarith and square root
     pub fn acsc(self) -> Self {
         // For all complex numbers z in C that
         // satisfies: z != 0
@@ -719,7 +739,7 @@ impl<T> Complex<T> where T : Float {
     ///
     /// cot(z) = 1 / tan(z)
     ///
-    /// where tan is the principal tangent.
+    /// where tan denotes the tangent.
     pub fn cot(&self) -> Self {
         Self::one() / self.tan()
     }
@@ -732,7 +752,7 @@ impl<T> Complex<T> where T : Float {
     ///
     /// acot(z) := 1 / 2i * ln( (z + i) / (z - i) )
     ///
-    /// where ln is the principal natural logarith.
+    /// where ln denotes the natural logarith.
     pub fn acot(self) -> Self {
         let one = Self::one();
         let i = Self::I();
