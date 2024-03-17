@@ -35,6 +35,8 @@ mod tests {
         let csc = testa.csc();
         let asec = testa.asec();
         let acsc = testa.acsc();
+        let cot = testa.cot();
+        let acot = testa.acot();
 
         // Right now I have to figure out how to do a test
         // correctly in rust, so I am basically just hand checing
@@ -60,5 +62,7 @@ mod tests {
         println!("csc {:?}", csc);
         println!("asec {:?}", asec);
         println!("acsc {:?}", acsc);
+        println!("cot {:?}", cot);
+        println!("acot {:?}", acot);
     }
 }

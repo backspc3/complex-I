@@ -686,6 +686,35 @@ impl<T> Complex<T> where T : Float {
     }
 
     #[inline]
+    /// Returns the cotangent of `self`
+    ///
+    /// Given a complex number z = x + yi, the cotangent function cot(z)
+    /// is computed using the function:
+    ///
+    /// cot(z) = 1 / tan(z)
+    ///
+    /// where tan is the principal tangent.
+    pub fn cot(&self) -> Self {
+        Self::one() / self.tan()
+    }
+
+    #[inline]
+    /// Returns the inverse cotangent of `self`
+    ///
+    /// Given a complex number z = x + yi, the inverse cotangent function acot(z)
+    /// is computed using the principal branch:
+    ///
+    /// acot(z) := 1 / 2i * ln( (z + i) / (z - i) )
+    ///
+    /// where ln is the principal natural logarith.
+    pub fn acot(self) -> Self {
+        let one = Self::one();
+        let i = Self::I();
+        let twoi = i + i;
+        (one / twoi) * ( (self + i) / (self - i) ).ln()
+    }
+
+    #[inline]
     /// Returns the conjugate of the complex
     /// num, such as ret = ( a, -b ).
     pub fn conjugate(&self) -> Self {
