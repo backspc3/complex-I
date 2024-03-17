@@ -1,25 +1,46 @@
 # complex-I
-A complex number library in pure rust.
+A complex number library in rust.
 
-## Overview:
-This library provides an implementation of complex numbers in Rust, utilizing the type Complex<T>,
-where T represents a floating-point number that implements the Float trait. The library offers various
-mathematical operations commonly associated with complex numbers, such as squaring, cosine, sine,
-natural logarithm, and logarithm functions.
+## Overview
 
-## Motivation:
-The implementation is inspired by Daniel Shiffman's Pi Day video. 
-This library serves as both an exercise in understanding complex
-numbers and as a practical tool for performing complex arithmetic operations in Rust.
-- [video](https://www.youtube.com/watch?v=6UlGLB_jiCs)
+This library provides a type complex for floating point numbers
+which offers various common mathematical operations. 
+
+see docs for all available operations.
+
+## Example
+
+```rust
+    use crate::complex::Complex;
+    use crate::complex::Complexf;
+
+    fn main() {
+
+        // Create two complex numbers.
+        let complexa : Complexf = Complex::new( 1.0, 3.0 ); 
+        let complexb : Complexf = Complex::new( 2.0, 1.0 );
+
+        // Can use these types with various operators
+        // and transformations.
+        let add = complexa + complexb;
+        let mul = complexa * complexb;
+    
+        complexa /= complexb;
+
+        let cos = complexa.cos();
+        // Check docs for all available operations and transformations.
+
+        println!("Final: {:?}", cos);
+    }
+```
 
 ## Resources:
 - Wikipedia:
-     [Complex numbers](https://en.wikipedia.org/wiki/Complex_number)
-     [De Moivre's formula](https://en.wikipedia.org/wiki/De_Moivre%27s_formula)
-     [Trigonometric functions](https://en.wikipedia.org/wiki/Trigonometric_functions)
-     [Hyperbolic functions](https://en.wikipedia.org/wiki/Hyperbolic_functions)
-     [Inverse trig functions](https://en.wikipedia.org/wiki/Inverse_trigonometric_functions)
-     [Inverse hyperbolic functions](https://en.wikipedia.org/wiki/Inverse_hyperbolic_functions)
+     [Complex numbers](https://en.wikipedia.org/wiki/Complex_number)\
+     [De Moivre's formula](https://en.wikipedia.org/wiki/De_Moivre%27s_formula)\
+     [Trigonometric functions](https://en.wikipedia.org/wiki/Trigonometric_functions)\
+     [Hyperbolic functions](https://en.wikipedia.org/wiki/Hyperbolic_functions)\
+     [Inverse trig functions](https://en.wikipedia.org/wiki/Inverse_trigonometric_functions)\
+     [Inverse hyperbolic functions](https://en.wikipedia.org/wiki/Inverse_hyperbolic_functions)\
 - Proofwiki:
-     [proofs/definitions](https://proofwiki.org/wiki/Main_Page)
+     [proofs/definitions](https://proofwiki.org/wiki/Main_Page)\
