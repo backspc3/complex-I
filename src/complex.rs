@@ -26,7 +26,7 @@ pub type Complexd = Complex<f64>;
 // complexa *= compexb
 
 // complexa - complexb
-// complexa /= compexb
+// complexa -= compexb
 // complexa / complexb
 // complexa /= compexb
 
@@ -625,6 +625,19 @@ impl<T> Complex<T> where T : Float {
     }
 
     #[inline]
+    /// Returns the hyperbolic secant of `self`
+    ///
+    /// Given the complex number z = x + yi, the hyperbolic secant sech(z)
+    /// is computed using the formula:
+    ///
+    /// sech(z) = 1 / cosh(z)
+    ///
+    /// Where cosh is the principal hyperbolic cosine.
+    pub fn sech(&self) -> Self {
+        Self::one() / self.cosh()
+    }
+
+    #[inline]
     /// Returns the cosecant of `self`
     ///
     /// Given a complex number z = x + yi, the secant function csc(z)
@@ -635,6 +648,19 @@ impl<T> Complex<T> where T : Float {
     /// Where sin is the principal sine of z.
     pub fn csc(&self) -> Self {
         Self::one() / self.sin()
+    }
+
+    #[inline]
+    /// Returns the hyperbolic cosecant of `self`
+    ///
+    /// Given the complex number z = x + yi, the hyperbolic cosecant csch(z)
+    /// is computed using the formula:
+    ///
+    /// csch(z) = 1 / sinh(z)
+    ///
+    /// Where sinh is the principal hyperbolic sine.
+    pub fn csch(&self) -> Self {
+        Self::one() / self.sinh()
     }
 
     #[inline]
