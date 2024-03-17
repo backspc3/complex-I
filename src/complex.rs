@@ -2,8 +2,6 @@
 
 #![allow(dead_code)]
 
-extern crate num_traits;
-
 use num_traits::Float;
 use std::ops::{Add, Div, Mul, Sub, Neg, AddAssign, SubAssign, MulAssign, DivAssign};
 
@@ -372,6 +370,8 @@ impl<T> Complex<T> where T : Float {
         if self.is_zero() {
             return Self::zero();
         }
+
+        // @ TODO(BAK): Check for different signs (quadrants)...
 
         // if not zero, compute the polar form of the complex number
         let (mut m, mut angle) = self.to_polar();
