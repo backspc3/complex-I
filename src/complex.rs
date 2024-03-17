@@ -612,6 +612,80 @@ impl<T> Complex<T> where T : Float {
     }
 
     #[inline]
+    /// Returns the secant of `self`
+    ///
+    /// Given a complex number z = x + yi, the secant function sec(z)
+    /// is computed using the formula:
+    ///
+    /// sec(z) = 1 / cos(z)
+    ///
+    /// Where cos is the principal cosine of z.
+    pub fn sec(&self) -> Self {
+        Self::one() / self.cos()
+    }
+
+    #[inline]
+    /// Returns the cosecant of `self`
+    ///
+    /// Given a complex number z = x + yi, the secant function csc(z)
+    /// is computed using the formula:
+    ///
+    /// csc(z) = 1 / sin(z)
+    ///
+    /// Where sin is the principal sine of z.
+    pub fn csc(&self) -> Self {
+        Self::one() / self.sin()
+    }
+
+    #[inline]
+    /// Returns the inverse secant of `self`
+    ///
+    /// Given a complex number z = x + yi, the inverse secant function asec(z)
+    /// is computed using the principal branch:
+    ///
+    /// asec(z) = 1 / i * ln( 1 + sqrt( 1 - z^2 ) / z )
+    ///
+    /// Where ln denotes the principal natural logarith and principal square root
+    pub fn asec(self) -> Self {
+        // For all complex numbers z in C that 
+        // satisfies: z != 0
+        //
+        // check.
+        if self.is_zero() {
+            return Self::zero();
+        }
+
+        let one = Self::one();
+        let i = Self::I();
+        let two_z = self * self;
+        -i * ( (one + ( one - two_z ).sqrt()) / self ).ln()
+    }
+
+    #[inline]
+    /// Returns the inverse cosecant of `self`
+    ///
+    /// Given a complex number z = x + yi, the inverse cosecant function acsc(z)
+    /// is computed using the principal branch:
+    ///
+    /// acsc(z) = 1 / i * ln( i + sqrt( z^2 - 1 ) / z )
+    ///
+    /// Where ln denotes the principal natural logarith and principal square root
+    pub fn acsc(self) -> Self {
+        // For all complex numbers z in C that
+        // satisfies: z != 0
+        //
+        // check.
+        if self.is_zero() {
+            return Self::zero();
+        }
+
+        let one = Self::one();
+        let i = Self::I();
+        let zsqrd = self * self;
+        -i * ( (i + ( zsqrd - one ).sqrt()) / self ).ln()
+    }
+
+    #[inline]
     /// Returns the conjugate of the complex
     /// num, such as ret = ( a, -b ).
     pub fn conjugate(&self) -> Self {
