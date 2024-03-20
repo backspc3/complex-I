@@ -11,8 +11,8 @@ see docs for all available operations.
 ## Example
 
 ```rust
-    use crate::complex::Complex;
-    use crate::complex::Complexf;
+    use complex::Complex;
+    use complex::Complexf;
 
     fn main() {
 
