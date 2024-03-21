@@ -311,7 +311,7 @@ impl<T> Complex<T> where T : Float {
     /// 
     /// The order of values in the tuple is (magnitude, argument).
     pub fn to_polar(&self) -> (T , T) {
-        ( self.magnitude(), self.argument() )
+        ( self.modulus(), self.argument() )
     }
 
     #[inline]
@@ -777,7 +777,7 @@ impl<T> Complex<T> where T : Float {
     /// Returns the magnitude or |abs| value
     /// of the complex number, also known
     /// as length.
-    pub fn magnitude(&self) -> T {
+    pub fn modulus(&self) -> T {
         self.dot(self).sqrt()
     }
 
@@ -785,7 +785,7 @@ impl<T> Complex<T> where T : Float {
     /// Returns the squared magnitude or 
     /// |abs| value of the complex number, 
     /// also known as squared length.
-    pub fn squared_magnitude(&self) -> T {
+    pub fn squared_modulus(&self) -> T {
         self.dot(self)
     }
 
@@ -797,7 +797,7 @@ impl<T> Complex<T> where T : Float {
 
     #[inline]
     // Returns the real component
-    pub const fn real(&self) -> T {
+    pub const fn re(&self) -> T {
         self.a
     } 
     

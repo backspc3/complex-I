@@ -2,7 +2,7 @@
 name = "complex_i"
 version = "0.1.0"
 edition = "2021"
-license = "MIT"
+# license = "MIT"
 license-file = "LICENSE"
 description = "A complex number library in rust."
 readme = "README.md"

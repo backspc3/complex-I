@@ -17,7 +17,7 @@ mod tests {
         let res = testa - testb;
         
         let sqr = testa.sqrt();
-        let mag = testa.magnitude();
+        let mag = testa.modulus();
 
         let pow = testa.pow(2.0);
 
